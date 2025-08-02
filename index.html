@@ -23,7 +23,6 @@
             --bg-dark: #fcd4e0;
             --text-dark: #4A4A4A;
             --text-light: #ffffff;
-            --border-soft: rgba(74, 74, 74, 0.2);
             --font-title: 'Playfair Display', serif;
             --font-ui: 'Josefin Sans', sans-serif;
             --font-body: 'Poppins', sans-serif;
@@ -34,7 +33,7 @@
         body {
             margin: 0;
             padding: 0;
-            background-color: #000000; /* Dark background for preloader */
+            background-color: #000000;
             color: var(--text-dark);
             font-family: var(--font-body);
             overflow: hidden;
@@ -75,14 +74,13 @@
             transform: translateY(0) rotateX(0deg);
         }
         
-        /* --- Page 0: Pre-loader & Time Travel --- */
+        /* --- Page 0: Pre-loader --- */
         #page-preloader {
-            background-color: #000000; /* Pitch Black */
+            background-color: #000000;
             color: var(--text-light);
-            transform: translateY(0) rotateX(0deg); /* Start visible */
+            transform: translateY(0) rotateX(0deg);
         }
         #preloader-content { position: relative; z-index: 10; }
-        
         #surprise-text-signature {
             font-family: var(--font-signature);
             font-size: clamp(3rem, 10vw, 6rem);
@@ -97,7 +95,6 @@
             color: #eee;
             text-transform: uppercase;
         }
-
         #volume-btn {
             margin-top: 2.5rem;
             padding: 15px 30px;
@@ -112,22 +109,21 @@
             box-shadow: 0 5px 0 #111;
         }
         #volume-btn:active { transform: translateY(5px); box-shadow: 0 0px 0 #111; }
-        
         #time-travel-container {
-            display: none; /* Hidden initially */
+            display: none;
             font-family: var(--font-circular);
             font-size: clamp(1.5rem, 5vw, 3rem);
             color: #0f0;
             text-shadow: 0 0 8px #0f0;
         }
 
-        /* --- Typography & Hover Effects --- */
+        /* --- Typography --- */
         h1, h2, h3 { margin: 0; padding: 0; transition: all 0.3s ease; z-index: 5; }
         h1 { font-family: var(--font-title); font-size: clamp(2.5rem, 10vw, 5rem); color: var(--text-dark); }
         h2 { font-family: var(--font-body); font-size: clamp(1.2rem, 5vw, 1.8rem); font-weight: 300; margin-top: 1rem; color: var(--text-dark); }
         h1:hover, h2:hover { transform: scale(1.02); letter-spacing: 1px; }
 
-        /* --- Page 1: Rose Petal Animation --- */
+        /* --- Page 1: Rose Petals --- */
         #page-loader { background-color: var(--bg-lightest); }
         #petal-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: 1; }
         .petal { position: absolute; top: -50px; width: 20px; height: 20px; background-color: #f7a7b9; border-radius: 1px 15px; opacity: 0.8; animation: fall linear infinite; }
@@ -147,13 +143,105 @@
         #cutMeBtn.visible { transform: translateX(-50%) translateY(0); opacity: 1; }
         .smooth-btn { background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.6); padding: 12px 24px; color: var(--text-dark); font-family: var(--font-body); font-weight: 600; font-size: 1rem; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); }
         .smooth-btn:hover { transform: scale(1.05) !important; letter-spacing: 1px; background: rgba(255, 255, 255, 0.6); }
-        #cake-assembly { position: absolute; bottom: 25%; left: 50%; transform: translateX(-50%); width: 200px; height: 300px; }
-        #cake-assembly .candle { position: absolute; left: 50%; transform: translateX(-50%); bottom: 140px; z-index: 2; }
-        #cake-assembly .candle .fire { position: absolute; bottom: 100%; left: 50%; width: 6px; height: 20px; background: #f9b659; border-radius: 10px 10px 10px 10px/20px 20px 10px 10px; transform-origin: 50% 100%; animation: fire 1.5s ease-in-out infinite; }
-        #cake-assembly .candle .fire:nth-child(2) { left: 30px; animation-delay: 0.5s; }
-        #cake-assembly .candle .fire:nth-child(3) { left: -20px; animation-delay: 1s; }
-        #cake-assembly #cake { position: absolute; left: 0; bottom: 0; width: 200px; height: 500px; }
-        @keyframes fire { 0%, 100% { transform: scale(1) rotate(-2deg); } 50% { transform: scale(1.1) rotate(2deg); } }
+
+        /* --- New 3D Animated Chocolate Cake --- */
+        .cake-container-3d {
+            position: absolute;
+            bottom: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            transform-style: preserve-3d;
+            animation: cake-bob 4s ease-in-out infinite;
+        }
+        @keyframes cake-bob {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-10px); }
+        }
+        .cake-3d {
+            position: relative;
+            width: 220px;
+            height: 150px; /* Increased height for visual thickness */
+            transform-style: preserve-3d;
+            transform: rotateX(75deg) rotateZ(-25deg); /* Increased rotation for more 3D effect */
+        }
+        .cake-side {
+            position: absolute;
+            width: 220px;
+            height: 150px; /* Increased height */
+            background: linear-gradient(to right, #6b4a3a, #4b2e21);
+            border-radius: 50%;
+        }
+        .cake-top {
+            position: absolute;
+            width: 220px;
+            height: 150px; /* Increased height */
+            background: #4b2e21;
+            border-radius: 50%;
+            transform: translateZ(40px); /* Increased thickness */
+            box-shadow: 0 0 20px rgba(0,0,0,0.5) inset;
+        }
+        .cake-icing-drip {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, transparent 40%, #f9c5d1 41%, #f9c5d1 45%, transparent 46%);
+            transform: translateZ(41px); /* Adjusted for thickness */
+        }
+        .cake-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) translateZ(42px); /* Adjusted for thickness */
+            font-family: var(--font-signature);
+            font-size: 1.5rem;
+            color: #fde6ec;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            white-space: nowrap;
+        }
+        .candles-3d {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transform: translateZ(41px); /* Adjusted for thickness */
+        }
+        .candle-3d {
+            position: absolute;
+            width: 10px;
+            height: 50px;
+            background: repeating-linear-gradient(45deg, #fff, #fff 4px, #f9c5d1 4px, #f9c5d1 8px);
+            transform-style: preserve-3d;
+        }
+        /* Positioning candles on the ellipse */
+        .candle-3d:nth-child(1) { top: 45px; left: 105px; }
+        .candle-3d:nth-child(2) { top: 65px; left: 155px; }
+        .candle-3d:nth-child(3) { top: 90px; left: 135px; }
+        .candle-3d:nth-child(4) { top: 85px; left: 65px; }
+        .candle-3d:nth-child(5) { top: 60px; left: 50px; }
+        
+        .flame-3d {
+            position: absolute;
+            top: -18px;
+            left: 50%;
+            width: 12px;
+            height: 18px;
+            background: #ffc83d;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            transform-origin: bottom center;
+            animation: realistic-flame 1s ease-in-out infinite;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .flame-3d.lit { opacity: 1; }
+        @keyframes realistic-flame {
+            0% { transform: translateX(-50%) scale(1) skewX(0deg); opacity: 0.9; }
+            25% { transform: translateX(-45%) scale(1.05) skewX(5deg); opacity: 1; }
+            50% { transform: translateX(-50%) scale(0.95) skewX(0deg); opacity: 0.8; }
+            75% { transform: translateX(-55%) scale(1.02) skewX(-5deg); opacity: 1; }
+            100% { transform: translateX(-50%) scale(1) skewX(0deg); opacity: 0.9; }
+        }
 
         /* --- Page 3: Photos --- */
         #page-photos { background-color: var(--bg-dark); }
@@ -234,19 +322,22 @@
             </div>
             <div id="wishMessage"><h2>Make a wish, Shriti...</h2></div>
             <button id="cutMeBtn" class="smooth-btn">🎂 Cut Me</button>
-            <div id="cake-assembly">
-                <div class="candle">
-                    <div class="fire"></div><div class="fire"></div><div class="fire"></div>
+            
+            <!-- New 3D Animated Cake -->
+            <div class="cake-container-3d">
+                <div class="cake-3d">
+                    <div class="cake-side"></div>
+                    <div class="cake-top"></div>
+                    <div class="cake-icing-drip"></div>
+                    <div class="cake-text">Happy Birthday Shriti ❤️</div>
+                    <div class="candles-3d">
+                        <div class="candle-3d"><div class="flame-3d"></div></div>
+                        <div class="candle-3d"><div class="flame-3d"></div></div>
+                        <div class="candle-3d"><div class="flame-3d"></div></div>
+                        <div class="candle-3d"><div class="flame-3d"></div></div>
+                        <div class="candle-3d"><div class="flame-3d"></div></div>
+                    </div>
                 </div>
-                <svg id="cake" viewBox="0 0 200 500" enable-background="new 0 0 200 500" xml:space="preserve">
-                    <path fill="#f9c5d1" d="M100,240c-55.228,0-100,11.193-100,25v10h200v-10C200,251.193,155.228,240,100,240z"/>
-                    <path fill="#fde6ec" d="M100,270c-55.228,0-100,11.193-100,25v10h200v-10C200,281.193,155.228,270,100,270z"/>
-                    <path fill="#fcd4e0" d="M100,300c-55.228,0-100,11.193-100,25v10h200v-10C200,311.193,155.228,300,100,300z"/>
-                    <path fill="#f9c5d1" d="M0,335v15c0,8.284,44.772,15,100,15s100-6.716,100-15v-15H0z"/>
-                    <path fill="#4A4A4A" opacity="0.1" d="M100,242c-55.228,0-100,11.193-100,25v3c0-13.807,44.772-25,100-25s100,11.193,100,25v-3C200,253.193,155.228,242,100,242z"/>
-                    <path fill="#4A4A4A" opacity="0.1" d="M100,272c-55.228,0-100,11.193-100,25v3c0-13.807,44.772-25,100-25s100,11.193,100,25v-3C200,283.193,155.228,272,100,272z"/>
-                    <path fill="#4A4A4A" opacity="0.1" d="M100,302c-55.228,0-100,11.193-100,25v3c0-13.807,44.772-25,100-25s100,11.193,100,25v-3C200,313.193,155.228,302,100,302z"/>
-                </svg>
             </div>
         </section>
 
@@ -392,11 +483,21 @@
                     runSequence();
                 }
             }
+            
+            function lightCandles() {
+                const flames = document.querySelectorAll('.flame-3d');
+                flames.forEach((flame, index) => {
+                    setTimeout(() => {
+                        flame.classList.add('lit');
+                    }, (index + 1) * 500); // Light candles one by one
+                });
+            }
 
             function initPage(pageId) {
                 if (pageId === 'page-loader') createPetals();
                 if (pageId === 'page-candle') {
-                    setTimeout(() => document.getElementById('cutMeBtn').classList.add('visible'), 5000);
+                    lightCandles();
+                    setTimeout(() => document.getElementById('cutMeBtn').classList.add('visible'), 4000); // Show button after candles are lit
                 }
                 if (pageId === 'page-photos' && !swiper) {
                     swiper = new Swiper('.swiper-container', {
@@ -442,7 +543,6 @@
                 advanceToNextPage();
             });
             
-            // Adjusted timing to make diary appear after 31s
             const pageSequence = [
                 { id: 'page-preloader', duration: null },
                 { id: 'page-loader', duration: 7000 },
