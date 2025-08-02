@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday, Shriti!</title>
+    
+    <!-- External Libraries -->
+    <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&family=Josefin+Sans:wght@400;700&family=Dancing+Script:wght@700&family=Orbitron:wght@700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- Base Styles & Theme --- */
+        :root {
+            --bg-lightest: #fde6ec;
+            --bg-medium: #f9c5d1;
+            --bg-dark: #fcd4e0;
+            --text-dark: #4A4A4A;
+            --text-light: #ffffff;
+            --border-soft: rgba(74, 74, 74, 0.2);
+            --font-title: 'Playfair Display', serif;
+            --font-ui: 'Josefin Sans', sans-serif;
+            --font-body: 'Poppins', sans-serif;
+            --font-signature: 'Dancing Script', cursive;
+            --font-circular: 'Orbitron', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000000; /* Dark background for preloader */
+            color: var(--text-dark);
+            font-family: var(--font-body);
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        /* --- Page Container & Transitions --- */
+        .page-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            perspective: 1500px;
+        }
+
+        .page {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            box-sizing: border-box;
+            backface-visibility: hidden;
+            transform-style: preserve-3d;
+            transition: transform 1.5s cubic-bezier(0.77, 0, 0.175, 1), opacity 1.5s ease-in-out;
+            opacity: 0;
+            transform: translateY(100vh) rotateX(-90deg);
+            transform-origin: center bottom;
+        }
+
+        .page.active {
+            opacity: 1;
+            transform: translateY(0) rotateX(0deg);
+        }
+        
+        /* --- Page 0: Pre-loader & Time Travel --- */
+        #page-preloader {
+            background-color: #000000; /* Pitch Black */
+            color: var(--text-light);
+            transform: translateY(0) rotateX(0deg); /* Start visible */
+        }
+        #preloader-content { position: relative; z-index: 10; }
+        
+        #surprise-text-signature {
+            font-family: var(--font-signature);
+            font-size: clamp(3rem, 10vw, 6rem);
+            color: #fff;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 10px #f9c5d1, 0 0 20px #f9c5d1;
+        }
+        #surprise-text-circular {
+            font-family: var(--font-circular);
+            font-size: clamp(1rem, 4vw, 1.5rem);
+            letter-spacing: 2px;
+            color: #eee;
+            text-transform: uppercase;
+        }
+
+        #volume-btn {
+            margin-top: 2.5rem;
+            padding: 15px 30px;
+            font-family: var(--font-ui);
+            font-size: 1.2rem;
+            color: #fff;
+            background: #222;
+            border: 2px solid #444;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.2s ease-out;
+            box-shadow: 0 5px 0 #111;
+        }
+        #volume-btn:active { transform: translateY(5px); box-shadow: 0 0px 0 #111; }
+        
+        #time-travel-container {
+            display: none; /* Hidden initially */
+            font-family: var(--font-circular);
+            font-size: clamp(1.5rem, 5vw, 3rem);
+            color: #0f0;
+            text-shadow: 0 0 8px #0f0;
+        }
+
+        /* --- Typography & Hover Effects --- */
+        h1, h2, h3 { margin: 0; padding: 0; transition: all 0.3s ease; z-index: 5; }
+        h1 { font-family: var(--font-title); font-size: clamp(2.5rem, 10vw, 5rem); color: var(--text-dark); }
+        h2 { font-family: var(--font-body); font-size: clamp(1.2rem, 5vw, 1.8rem); font-weight: 300; margin-top: 1rem; color: var(--text-dark); }
+        h1:hover, h2:hover { transform: scale(1.02); letter-spacing: 1px; }
+
+        /* --- Page 1: Rose Petal Animation --- */
+        #page-loader { background-color: var(--bg-lightest); }
+        #petal-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: 1; }
+        .petal { position: absolute; top: -50px; width: 20px; height: 20px; background-color: #f7a7b9; border-radius: 1px 15px; opacity: 0.8; animation: fall linear infinite; }
+        @keyframes fall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
+            100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* --- Page 2: Cake Page --- */
+        #page-candle { background-color: var(--bg-medium); justify-content: flex-start; padding-top: 5%; }
+        #page-candle .cake-top-text { width: 100%; transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out; }
+        #page-candle .cake-top-text.hidden { transform: translateY(-50px); opacity: 0; }
+        #page-candle #wishMessage { position: absolute; top: 10%; opacity: 0; transform: translateY(-50px); transition: transform 0.8s cubic-bezier(0.215, 0.610, 0.355, 1), opacity 0.8s ease; }
+        #page-candle #wishMessage.visible { opacity: 1; transform: translateY(0); }
+        #page-candle #wishMessage h2 { font-family: var(--font-ui); font-size: clamp(1.5rem, 6vw, 2.5rem); }
+        #cutMeBtn { position: absolute; bottom: 10%; left: 50%; transform: translateX(-50%) translateY(100px); opacity: 0; transition: all 0.8s cubic-bezier(0.215, 0.610, 0.355, 1); z-index: 100; }
+        #cutMeBtn.visible { transform: translateX(-50%) translateY(0); opacity: 1; }
+        .smooth-btn { background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.6); padding: 12px 24px; color: var(--text-dark); font-family: var(--font-body); font-weight: 600; font-size: 1rem; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); }
+        .smooth-btn:hover { transform: scale(1.05) !important; letter-spacing: 1px; background: rgba(255, 255, 255, 0.6); }
+        #cake-assembly { position: absolute; bottom: 25%; left: 50%; transform: translateX(-50%); width: 200px; height: 300px; }
+        #cake-assembly .candle { position: absolute; left: 50%; transform: translateX(-50%); bottom: 140px; z-index: 2; }
+        #cake-assembly .candle .fire { position: absolute; bottom: 100%; left: 50%; width: 6px; height: 20px; background: #f9b659; border-radius: 10px 10px 10px 10px/20px 20px 10px 10px; transform-origin: 50% 100%; animation: fire 1.5s ease-in-out infinite; }
+        #cake-assembly .candle .fire:nth-child(2) { left: 30px; animation-delay: 0.5s; }
+        #cake-assembly .candle .fire:nth-child(3) { left: -20px; animation-delay: 1s; }
+        #cake-assembly #cake { position: absolute; left: 0; bottom: 0; width: 200px; height: 500px; }
+        @keyframes fire { 0%, 100% { transform: scale(1) rotate(-2deg); } 50% { transform: scale(1.1) rotate(2deg); } }
+
+        /* --- Page 3: Photos --- */
+        #page-photos { background-color: var(--bg-dark); }
+        .swiper-container { width: 100%; padding-top: 50px; padding-bottom: 50px; }
+        .swiper-slide {
+            background-position: center;
+            background-size: cover;
+            width: 300px;
+            height: 400px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            background-color: #fff;
+            border: 1px solid var(--border-soft);
+            position: relative; /* Needed for quote positioning */
+        }
+        .swiper-slide img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+        .swiper-slide:hover img { transform: scale(1.1); }
+        .slide-quote {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 15px;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0));
+            color: white;
+            font-family: var(--font-body);
+            font-size: 0.75rem; /* Very small font */
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            transition-delay: 0.3s;
+        }
+        .swiper-slide-active .slide-quote {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Page 4: Diary --- */
+        #page-diary { background-color: var(--bg-lightest); }
+        .diary-container { background: rgba(255, 255, 255, 0.3); backdrop-filter: blur(5px); border: 1px solid var(--border-soft); border-radius: 15px; padding: 2rem; width: 90%; max-width: 800px; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1); }
+        #diary-text { font-family: var(--font-body); font-size: clamp(1rem, 3vw, 1.3rem); color: var(--text-dark); text-align: left; min-height: 250px; }
+        #diary-text .typed-cursor { color: var(--text-dark); }
+        .signature { font-family: var(--font-signature); font-size: clamp(1.5rem, 4vw, 2.2rem); text-align: right; display: block; margin-top: 1.5rem; color: #c78b9b; font-weight: 700; }
+
+        /* --- Page 5: Final Wish --- */
+        #page-final { background-color: var(--bg-medium); }
+    </style>
+</head>
+<body>
+    <audio id="bg-audio" loop>
+        <source src="https://res.cloudinary.com/dqh7olosv/video/upload/v1754127757/lv_0_20250802150406_j4x58n.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="page-container">
+        
+        <!-- Page 0: Pre-loader -->
+        <section id="page-preloader" class="page active">
+            <div id="preloader-content">
+                <div id="surprise-text-signature">Surprise !!!</div>
+                <div id="surprise-text-circular">Ok, Volume Up And Watch</div>
+                <button id="volume-btn">🔊 Volume On</button>
+            </div>
+            <div id="time-travel-container">
+                <span id="date-display"></span>
+            </div>
+        </section>
+
+        <!-- Page 1: Initial Loader/Greeting -->
+        <section id="page-loader" class="page">
+            <div id="petal-container"></div>
+            <h1>Happy Birthday</h1>
+            <h2>My Dearest Shriti</h2>
+        </section>
+
+        <!-- Page 2: Interactive Cake -->
+        <section id="page-candle" class="page">
+            <div class="cake-top-text">
+                <h1 style="font-family: var(--font-ui);">Happy Birthday!</h1>
+                <h2 style="font-family: var(--font-body);">Shriti</h2>
+            </div>
+            <div id="wishMessage"><h2>Make a wish, Shriti...</h2></div>
+            <button id="cutMeBtn" class="smooth-btn">🎂 Cut Me</button>
+            <div id="cake-assembly">
+                <div class="candle">
+                    <div class="fire"></div><div class="fire"></div><div class="fire"></div>
+                </div>
+                <svg id="cake" viewBox="0 0 200 500" enable-background="new 0 0 200 500" xml:space="preserve">
+                    <path fill="#f9c5d1" d="M100,240c-55.228,0-100,11.193-100,25v10h200v-10C200,251.193,155.228,240,100,240z"/>
+                    <path fill="#fde6ec" d="M100,270c-55.228,0-100,11.193-100,25v10h200v-10C200,281.193,155.228,270,100,270z"/>
+                    <path fill="#fcd4e0" d="M100,300c-55.228,0-100,11.193-100,25v10h200v-10C200,311.193,155.228,300,100,300z"/>
+                    <path fill="#f9c5d1" d="M0,335v15c0,8.284,44.772,15,100,15s100-6.716,100-15v-15H0z"/>
+                    <path fill="#4A4A4A" opacity="0.1" d="M100,242c-55.228,0-100,11.193-100,25v3c0-13.807,44.772-25,100-25s100,11.193,100,25v-3C200,253.193,155.228,242,100,242z"/>
+                    <path fill="#4A4A4A" opacity="0.1" d="M100,272c-55.228,0-100,11.193-100,25v3c0-13.807,44.772-25,100-25s100,11.193,100,25v-3C200,283.193,155.228,272,100,272z"/>
+                    <path fill="#4A4A4A" opacity="0.1" d="M100,302c-55.228,0-100,11.193-100,25v3c0-13.807,44.772-25,100-25s100,11.193,100,25v-3C200,313.193,155.228,302,100,302z"/>
+                </svg>
+            </div>
+        </section>
+
+        <!-- Page 3: Photo Slideshow -->
+        <section id="page-photos" class="page">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <img src="https://res.cloudinary.com/dqh7olosv/image/upload/v1754127827/IMG-20250802-WA0012_x76meo.jpg" alt="Memory 1">
+                        <div class="slide-quote">You’re not just my birthday wish — you’re my every wish come true.</div>
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="https://res.cloudinary.com/dqh7olosv/image/upload/v1754127839/IMG-20250802-WA0011_fnhm6e.jpg" alt="Memory 2">
+                        <div class="slide-quote">With every heartbeat, I fall for you all over again.</div>
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="https://res.cloudinary.com/dqh7olosv/image/upload/v1754127851/IMG-20250802-WA0015_cwrjgk.jpg" alt="Memory 3">
+                        <div class="slide-quote">Your smile is my favorite reason to exist.</div>
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="https://res.cloudinary.com/dqh7olosv/image/upload/v1754127863/IMG-20250802-WA0013_j4kd5d.jpg" alt="Memory 4">
+                        <div class="slide-quote">In you, I found the kind of love people write poems about.</div>
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="https://res.cloudinary.com/dqh7olosv/image/upload/v1754127878/IMG-20250802-WA0014_jdpvp1.jpg" alt="Memory 5">
+                        <div class="slide-quote">Every moment with you feels like a beautiful forever.</div>
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="https://res.cloudinary.com/dqh7olosv/image/upload/v1754127890/IMG-20250802-WA0010_c4iee4.jpg" alt="Memory 6">
+                        <div class="slide-quote">You didn’t just steal my heart — you made it your home.</div>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </section>
+
+        <!-- Page 4: Diary/Message -->
+        <section id="page-diary" class="page">
+            <div class="diary-container">
+                <span id="diary-text"></span>
+            </div>
+        </section>
+
+        <!-- Page 5: Final Wish -->
+        <section id="page-final" class="page">
+            <h1>Wishing You Happy Birthday Again...</h1>
+            <h2>With Love, Always.</h2>
+        </section>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const pages = document.querySelectorAll('.page');
+            let currentPageIndex = 0;
+            let swiper, typed;
+
+            const audio = document.getElementById('bg-audio');
+            const volumeBtn = document.getElementById('volume-btn');
+            const preloaderContent = document.getElementById('preloader-content');
+            const timeTravelContainer = document.getElementById('time-travel-container');
+            const dateDisplay = document.getElementById('date-display');
+
+            // --- Pre-loader Logic ---
+            volumeBtn.addEventListener('click', () => {
+                audio.play().catch(e => console.error("Audio play failed:", e));
+                
+                preloaderContent.style.transition = 'opacity 0.5s ease';
+                preloaderContent.style.opacity = '0';
+
+                setTimeout(() => {
+                    preloaderContent.style.display = 'none';
+                    timeTravelContainer.style.display = 'block';
+                    startTimeTravel();
+                }, 500);
+            });
+
+            function startTimeTravel() {
+                const startDate = new Date();
+                const endDate = new Date('2025-08-03T00:00:00');
+                let currentDate = new Date(startDate);
+
+                const interval = setInterval(() => {
+                    const daysToAdd = Math.floor(Math.random() * 50) + 1;
+                    const hoursToAdd = Math.floor(Math.random() * 100);
+                    currentDate.setDate(currentDate.getDate() + daysToAdd);
+                    currentDate.setHours(currentDate.getHours() + hoursToAdd);
+                    
+                    if (currentDate >= endDate) {
+                        clearInterval(interval);
+                        dateDisplay.textContent = 'AUG 03 2025';
+                        setTimeout(() => {
+                            document.getElementById('page-preloader').classList.remove('active');
+                            startMainExperience();
+                        }, 1500);
+                    } else {
+                        const month = currentDate.toLocaleString('en-US', { month: 'short' }).toUpperCase();
+                        const day = String(currentDate.getDate()).padStart(2, '0');
+                        const year = currentDate.getFullYear();
+                        dateDisplay.textContent = `${month} ${day} ${year}`;
+                    }
+                }, 50);
+            }
+
+            // --- Main Experience Logic ---
+            function startMainExperience() {
+                currentPageIndex = 1; // Start from page-loader
+                runSequence();
+            }
+
+            function createPetals() {
+                const petalContainer = document.getElementById('petal-container');
+                if (!petalContainer || petalContainer.children.length > 0) return;
+                const petalCount = 20;
+                for (let i = 0; i < petalCount; i++) {
+                    const petal = document.createElement('div');
+                    petal.className = 'petal';
+                    petal.style.left = `${Math.random() * 100}vw`;
+                    petal.style.animationDuration = `${Math.random() * 5 + 5}s`;
+                    petal.style.animationDelay = `${Math.random() * 5}s`;
+                    petal.style.transform = `scale(${Math.random() * 0.5 + 0.5})`;
+                    petalContainer.appendChild(petal);
+                }
+            }
+
+            function showPage(pageId) {
+                const newPage = document.getElementById(pageId);
+                if (newPage) {
+                    pages.forEach(page => page.classList.remove('active'));
+                    newPage.classList.add('active');
+                }
+            }
+
+            function advanceToNextPage() {
+                if (currentPageIndex < pageSequence.length - 1) {
+                    currentPageIndex++;
+                    runSequence();
+                }
+            }
+
+            function initPage(pageId) {
+                if (pageId === 'page-loader') createPetals();
+                if (pageId === 'page-candle') {
+                    setTimeout(() => document.getElementById('cutMeBtn').classList.add('visible'), 5000);
+                }
+                if (pageId === 'page-photos' && !swiper) {
+                    swiper = new Swiper('.swiper-container', {
+                        effect: 'coverflow', grabCursor: true, centeredSlides: true, slidesPerView: 'auto',
+                        loop: true,
+                        autoplay: {
+                            delay: 2500,
+                            disableOnInteraction: false,
+                            pauseOnMouseEnter: true,
+                        },
+                        coverflowEffect: { rotate: 50, stretch: 0, depth: 100, modifier: 1, slideShadows: true },
+                        pagination: { el: '.swiper-pagination', clickable: true },
+                    });
+                }
+                if (pageId === 'page-diary' && !typed) {
+                    typed = new Typed('#diary-text', {
+                        strings: ["Dearest Shriti,^1000\nOn your special day, I wanted to put together a little something to show you how much you mean to me.^500 Every moment with you is a cherished memory, a page in our beautiful story.^500 I hope this year brings you as much joy and happiness as you bring into my life every single day.^1000\nHappy Birthday, my love.^1500<br><br><span class='signature'>Yours, Abinash</span>"],
+                        typeSpeed: 50, backSpeed: 25, startDelay: 500, loop: false, showCursor: true, cursorChar: '|',
+                        onComplete: () => {
+                            document.querySelector('.typed-cursor').style.display = 'none';
+                            setTimeout(advanceToNextPage, 2000);
+                        }
+                    });
+                }
+                // Stop audio on the final page
+                if (pageId === 'page-final') {
+                    audio.pause();
+                }
+            }
+            
+            const cutMeBtn = document.getElementById('cutMeBtn');
+            const wishMessage = document.getElementById('wishMessage');
+            const cakeTopText = document.querySelector('#page-candle .cake-top-text');
+            cutMeBtn.addEventListener('click', () => {
+                cutMeBtn.style.opacity = '0';
+                cutMeBtn.style.transform = 'translateX(-50%) translateY(50px)';
+                cakeTopText.classList.add('hidden');
+                setTimeout(() => wishMessage.classList.add('visible'), 300);
+            });
+            
+            // Adjusted timing to make diary appear after 31s
+            // Preloader (~4s) + Loader (7s) + Cake (8s) + Photos (12s) = 31s
+            const pageSequence = [
+                { id: 'page-preloader', duration: null },
+                { id: 'page-loader', duration: 7000 },
+                { id: 'page-candle', duration: 8000 },
+                { id: 'page-photos', duration: 12000 },
+                { id: 'page-diary', duration: null },
+                { id: 'page-final', duration: Infinity }
+            ];
+
+            function runSequence() {
+                if (currentPageIndex >= pageSequence.length) return;
+                const currentPage = pageSequence[currentPageIndex];
+                showPage(currentPage.id);
+                initPage(currentPage.id);
+                if (currentPage.duration) {
+                    setTimeout(advanceToNextPage, currentPage.duration);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
+
