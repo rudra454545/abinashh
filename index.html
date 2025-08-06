@@ -44,10 +44,10 @@
         }
         @keyframes zoom-in-out { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
 
-        /* --- Main Content Section --- */
-        .main-content-section {
+        /* --- Section Styling --- */
+        .fullscreen-section {
             display: flex;
-            flex-direction: column; /* Allow scroll indicator to be at the bottom */
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
@@ -63,6 +63,33 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             transform-style: preserve-3d;
             transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        
+        /* --- Video Card --- */
+        .video-card {
+            width: 100%;
+            max-width: 800px;
+            border-radius: 20px;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        .video-card:hover {
+            transform: rotateY(-10deg) rotateX(5deg) scale(1.05);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+        }
+        .video-card iframe {
+            display: block;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+        }
+        .video-section .section-title {
+            font-family: var(--primary-font);
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            margin-bottom: 2rem;
+            animation: text-glow 3s ease-in-out infinite alternate;
         }
 
         /* --- Main Title Animation --- */
@@ -117,9 +144,10 @@
             left: 50%;
             transform: translateX(-50%);
             opacity: 0;
-            animation: fade-in-up 1s ease-out 4s forwards;
+            animation: fade-in-up-scroll 1s ease-out 3s forwards;
             transition: opacity 0.5s;
         }
+        @keyframes fade-in-up-scroll { from { opacity: 0; transform: translateY(20px) translateX(-50%); } to { opacity: 1; transform: translateY(0) translateX(-50%); } }
         .scroll-down.hidden {
             opacity: 0;
         }
@@ -259,8 +287,24 @@
     </div>
     <canvas id="particle-canvas"></canvas>
 
-    <!-- Main Birthday Card Section -->
-    <section class="main-content-section">
+    <!-- Section 1: Video -->
+    <section class="fullscreen-section video-section">
+        <h2 class="section-title">A Special Message</h2>
+        <div class="video-card">
+            <iframe
+              src="https://player.cloudinary.com/embed/?cloud_name=dqh7olosv&public_id=1754441825450_ikwdfu&profile=cld-default&autoplay=1&loop=1&muted=1&controls=0"
+              allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+              allowfullscreen
+              frameborder="0"
+            ></iframe>
+        </div>
+         <div class="scroll-down">
+            <a href="#birthday-section"><span></span></a>
+        </div>
+    </section>
+
+    <!-- Section 2: Birthday Card -->
+    <section id="birthday-section" class="fullscreen-section">
         <div class="card-3d">
             <h1 id="main-title" class="main-title"></h1>
             <p class="birthday-message">
@@ -291,12 +335,12 @@
                 </svg>
             </div>
         </div>
-        <div class="scroll-down" id="scroll-indicator">
-            <a href="#photo-section"><span></span>Scroll Down</a>
+        <div class="scroll-down">
+            <a href="#photo-section"><span></span></a>
         </div>
     </section>
 
-    <!-- Photo Slider Section -->
+    <!-- Section 3: Photo Slider -->
     <section class="photo-section" id="photo-section">
         <h2 class="photo-section-title">A Few Memories</h2>
         <div class="slider-container">
@@ -313,20 +357,24 @@
             const musicToggle = document.getElementById('music-toggle');
             const icon = musicToggle.querySelector('i');
 
-            // Attempt to play music on first user interaction
+            let hasInteracted = false;
+            
             function playMusic() {
+                if (hasInteracted) return;
+                hasInteracted = true;
                 song.play().then(() => {
                     icon.classList.remove('fa-play');
                     icon.classList.add('fa-pause');
                 }).catch(error => {
                     console.log("Autoplay was prevented. User needs to click the play button.");
                 });
-                // Remove this listener after the first interaction
-                document.body.removeEventListener('click', playMusic);
             }
             document.body.addEventListener('click', playMusic, { once: true });
+            document.body.addEventListener('scroll', playMusic, { once: true });
+
 
             musicToggle.addEventListener('click', () => {
+                hasInteracted = true;
                 if (song.paused) {
                     song.play();
                     icon.classList.remove('fa-play');
@@ -414,16 +462,6 @@
                 requestAnimationFrame(updateSlider);
             }
             updateSlider();
-
-            // --- Scroll Indicator Logic ---
-            const scrollIndicator = document.getElementById('scroll-indicator');
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 50) {
-                    scrollIndicator.classList.add('hidden');
-                } else {
-                    scrollIndicator.classList.remove('hidden');
-                }
-            });
 
             // --- Canvas Particle Animation ---
             const canvas = document.getElementById('particle-canvas');
