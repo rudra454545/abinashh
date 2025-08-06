@@ -11,9 +11,13 @@
         :root {
             --primary-font: 'Great Vibes', cursive;
             --secondary-font: 'Montserrat', sans-serif;
-            --text-color: #333;
-            --gold-color: #D4AF37;
-            --bg-color: #fdf8f5;
+            --text-color: #f0f0f0;
+            --gold-color: #ffd700;
+            --bg-color: #1a1a2d; /* Deep Indigo */
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
@@ -22,203 +26,189 @@
             font-family: var(--secondary-font);
             background-color: var(--bg-color);
             color: var(--text-color);
-            overflow: hidden; /* Prevents scrollbars from animations */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            overflow-x: hidden; /* Prevent horizontal scroll */
             text-align: center;
         }
 
-        /* --- Background Cake Image --- */
+        /* --- Background Elements --- */
         .background-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -2;
-            background-image: url('https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?q=80&w=2850&auto=format&fit=crop');
-            background-size: cover;
-            background-position: center;
-            animation: zoom-in-out 25s ease-in-out infinite;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
+            background-image: url('https://images.unsplash.com/photo-1559981426-0d75d40b6151?q=80&w=2874&auto=format&fit=crop');
+            background-size: cover; background-position: center;
+            animation: zoom-in-out 30s ease-in-out infinite;
         }
-
         .background-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: rgba(253, 248, 245, 0.7); /* Soft overlay */
-            backdrop-filter: blur(4px);
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            background: rgba(26, 26, 45, 0.8); backdrop-filter: blur(5px);
         }
+        @keyframes zoom-in-out { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
 
-        @keyframes zoom-in-out {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.08); }
-        }
-
-        /* --- Main Content Container --- */
-        .content-container {
-            position: relative;
-            z-index: 10;
+        /* --- Main Content Section --- */
+        .main-content-section {
+            display: flex;
+            flex-direction: column; /* Allow scroll indicator to be at the bottom */
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
             padding: 2rem;
-            max-width: 900px;
+            perspective: 1500px;
+            position: relative;
+        }
+
+        /* --- 3D Card Effect --- */
+        .card-3d {
+            padding: 2rem 3rem; border-radius: 20px;
+            background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.6s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
         /* --- Main Title Animation --- */
         .main-title {
-            font-family: var(--primary-font);
-            font-size: clamp(3.5rem, 15vw, 8rem);
-            color: var(--text-color);
-            font-weight: 400;
-            margin: 0;
-            line-height: 1.2;
+            font-family: var(--primary-font); font-size: clamp(3rem, 12vw, 7rem);
+            color: var(--text-color); font-weight: 400; margin: 0; line-height: 1.2;
             animation: text-glow 3s ease-in-out infinite alternate;
+            transform: translateZ(60px);
         }
-
         .main-title span {
-            display: inline-block;
-            opacity: 0;
-            transform: translateY(50px) scale(0.8);
-            animation: letter-reveal 1s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            display: inline-block; opacity: 0; transform: translateY(50px) scale(0.8);
+            animation: letter-loop 8s cubic-bezier(0.25, 1, 0.5, 1) infinite;
         }
-
-        @keyframes letter-reveal {
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        @keyframes text-glow {
-            from {
-                text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px var(--gold-color), 0 0 20px var(--gold-color);
-            }
-            to {
-                text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px var(--gold-color), 0 0 40px var(--gold-color);
-            }
-        }
+        @keyframes letter-loop { 0%, 100% { opacity: 0; transform: translateY(50px) scale(0.8); } 20%, 80% { opacity: 1; transform: translateY(0) scale(1); } }
+        @keyframes text-glow { from { text-shadow: 0 0 5px #fff, 0 0 10px var(--gold-color), 0 0 15px var(--gold-color); } to { text-shadow: 0 0 10px #fff, 0 0 20px var(--gold-color), 0 0 30px var(--gold-color); } }
 
         /* --- Subtitle/Message --- */
         .birthday-message {
-            font-size: clamp(1rem, 4vw, 1.5rem);
-            font-weight: 300;
-            margin-top: 1.5rem;
-            letter-spacing: 1px;
-            opacity: 0;
+            font-size: clamp(1rem, 3.5vw, 1.3rem); font-weight: 300; margin-top: 1rem;
+            letter-spacing: 1px; opacity: 0;
             animation: fade-in-up 1.5s ease-out 2s forwards;
+            transform: translateZ(40px);
         }
+        @keyframes fade-in-up { from { opacity: 0; transform: translateY(20px) translateZ(40px); } to { opacity: 1; transform: translateY(0) translateZ(40px); } }
 
-        @keyframes fade-in-up {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        /* --- Interactive Cake --- */
+        #cake-container {
+            margin-top: 1.5rem; cursor: pointer; transform: translateZ(20px);
         }
-
-        /* --- Balloon Animations --- */
-        .balloon-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 5;
-            pointer-events: none;
+        #cake-svg {
+            width: 220px; height: auto;
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.3));
+            animation: float-cake 5s ease-in-out infinite;
         }
+        @keyframes float-cake { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+        #cake-svg .flame { transform-origin: bottom center; animation: flicker 1.5s ease-in-out infinite; }
+        @keyframes flicker { 0%, 100% { transform: scaleY(1); opacity: 1; } 50% { transform: scaleY(0.8); opacity: 0.8; } }
+        #cake-svg .smoke { opacity: 0; transform-origin: bottom center; }
+        #cake-svg.blown-out .flame { animation: none; opacity: 0; transition: opacity 0.3s; }
+        #cake-svg.blown-out .smoke { animation: puff-smoke 3s ease-out forwards; }
+        @keyframes puff-smoke { 0% { opacity: 0.8; transform: translateY(0) scale(0.5); } 100% { opacity: 0; transform: translateY(-40px) scale(1); } }
+        #cake-svg #cake-slice { opacity: 0; }
+        #cake-svg.cut #cake-slice { animation: reveal-slice 1s ease-out forwards; }
+        #cake-svg.cut #main-cake { animation: hide-main-cake 1s ease-out forwards; }
+        @keyframes reveal-slice { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes hide-main-cake { to { opacity: 0; } }
 
-        .balloon {
-            width: 70px;
-            height: 90px;
-            border-radius: 50%;
-            background-color: rgba(212, 175, 55, 0.7); /* Gold */
+        /* --- Scroll Down Indicator --- */
+        .scroll-down {
             position: absolute;
-            bottom: -150px;
-            animation: float-up 15s linear infinite;
-        }
-
-        .balloon::before { /* Balloon tie */
-            content: '';
-            position: absolute;
-            bottom: -8px;
+            bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
-            border-left: 8px solid transparent;
-            border-right: 8px solid transparent;
-            border-bottom: 10px solid rgba(212, 175, 55, 0.7);
+            opacity: 0;
+            animation: fade-in-up 1s ease-out 4s forwards;
+            transition: opacity 0.5s;
         }
-        
-        .balloon::after { /* String */
-            content: '';
+        .scroll-down.hidden {
+            opacity: 0;
+        }
+        .scroll-down a {
+            display: block;
+            padding-top: 60px;
+            color: var(--text-color);
+            text-decoration: none;
+        }
+        .scroll-down a span {
             position: absolute;
-            top: 90px;
-            left: 50%;
-            width: 1px;
-            height: 120px;
-            background-color: rgba(100, 100, 100, 0.5);
-        }
-
-        @keyframes float-up {
-            0% {
-                transform: translateY(0) translateX(0) rotate(0deg);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-120vh) translateX(100px) rotate(360deg);
-                opacity: 0;
-            }
-        }
-        
-        /* Different balloon colors and animation delays/durations */
-        .balloon:nth-child(2) {
-            left: 20%;
-            background-color: rgba(255, 192, 203, 0.7); /* Pink */
-            animation-duration: 20s;
-            animation-delay: 1s;
-        }
-        .balloon:nth-child(2)::before { border-bottom-color: rgba(255, 192, 203, 0.7); }
-        
-        .balloon:nth-child(3) {
-            left: 80%;
-            background-color: rgba(173, 216, 230, 0.7); /* Light Blue */
-            animation-duration: 18s;
-            animation-delay: 3s;
-        }
-        .balloon:nth-child(3)::before { border-bottom-color: rgba(173, 216, 230, 0.7); }
-
-        .balloon:nth-child(4) {
-            left: 50%;
-            background-color: rgba(240, 230, 140, 0.7); /* Khaki */
-            animation-duration: 16s;
-            animation-delay: 5s;
-        }
-        .balloon:nth-child(4)::before { border-bottom-color: rgba(240, 230, 140, 0.7); }
-
-        .balloon:nth-child(5) {
-            left: 90%;
-            background-color: rgba(221, 160, 221, 0.7); /* Plum */
-            animation-duration: 22s;
-            animation-delay: 2s;
-        }
-        .balloon:nth-child(5)::before { border-bottom-color: rgba(221, 160, 221, 0.7); }
-
-        /* --- Particle Canvas --- */
-        #particle-canvas {
-            position: fixed;
             top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            pointer-events: none;
+            left: 50%;
+            width: 24px;
+            height: 24px;
+            margin-left: -12px;
+            border-left: 1px solid #fff;
+            border-bottom: 1px solid #fff;
+            transform: rotate(-45deg);
+            animation: bounce 2s infinite;
         }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0) rotate(-45deg); }
+            40% { transform: translateY(-20px) rotate(-45deg); }
+            60% { transform: translateY(-10px) rotate(-45deg); }
+        }
+
+        /* --- Photo Slider Section --- */
+        .photo-section {
+            padding: 5rem 0;
+            position: relative;
+            z-index: 20;
+            background-color: var(--bg-color); /* Solid background for this section */
+        }
+        .photo-section-title {
+            font-family: var(--primary-font); font-size: clamp(2.5rem, 8vw, 4rem);
+            margin-bottom: 3rem; animation: text-glow 3s ease-in-out infinite alternate;
+        }
+        .slider-container {
+            height: 400px;
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            -webkit-mask-image: linear-gradient(to right, transparent, black 20%, black 80%, transparent);
+            mask-image: linear-gradient(to right, transparent, black 20%, black 80%, transparent);
+        }
+        .slider-track {
+            display: flex;
+            position: absolute;
+            left: 0;
+            height: 100%;
+            animation: scroll-slider 40s linear infinite;
+        }
+        .slider-container:hover .slider-track {
+            animation-play-state: paused;
+        }
+        @keyframes scroll-slider {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+        .slide {
+            height: 350px;
+            width: 250px;
+            margin: 0 2rem;
+            flex-shrink: 0;
+            position: relative;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+            transform: scale(0.8);
+            opacity: 0.6;
+        }
+        .slide img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            border-radius: 15px;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+        .slide.active {
+            transform: scale(1.1);
+            opacity: 1;
+            z-index: 10;
+        }
+
+        /* --- Shooting Stars & Particles --- */
+        .stars-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
+        .star { position: absolute; background: linear-gradient(-45deg, var(--gold-color), rgba(255, 215, 0, 0)); width: 2px; height: 80px; border-radius: 50%; filter: drop-shadow(0 0 6px var(--gold-color)); animation: shooting-star 10s linear infinite; }
+        .star:nth-child(2) { top: 20%; left: 20%; animation-delay: 3s; animation-duration: 8s; }
+        .star:nth-child(3) { top: 50%; left: 40%; animation-delay: 5s; animation-duration: 12s; }
+        @keyframes shooting-star { 0% { transform: rotate(315deg) translateX(0); opacity: 1; } 70% { opacity: 1; } 100% { transform: rotate(315deg) translateX(-1000px); opacity: 0; } }
+        #particle-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+        .confetti { position: fixed; width: 10px; height: 10px; background-color: var(--gold-color); opacity: 1; transition: transform 1s ease-out, opacity 1s ease-out; }
 
     </style>
 </head>
@@ -227,24 +217,59 @@
     <!-- Background elements -->
     <div class="background-container"></div>
     <div class="background-overlay"></div>
+    <div class="stars-container">
+        <div class="star" style="top: 0; left: 50%;"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+    </div>
     <canvas id="particle-canvas"></canvas>
 
-    <!-- Animated Balloons -->
-    <div class="balloon-container">
-        <div class="balloon" style="left: 10%;"></div>
-        <div class="balloon"></div>
-        <div class="balloon"></div>
-        <div class="balloon"></div>
-        <div class="balloon"></div>
-    </div>
+    <!-- Main Birthday Card Section -->
+    <section class="main-content-section">
+        <div class="card-3d">
+            <h1 id="main-title" class="main-title"></h1>
+            <p class="birthday-message">
+                Wishing you a day filled with love, laughter, and everything you wished for. May your year ahead be as wonderful as you are!
+            </p>
+            <div id="cake-container" title="Click me!">
+                <!-- SVG Cake -->
+                <svg id="cake-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                    <g id="whole-cake">
+                        <g id="main-cake">
+                            <path d="M30 150 Q100 130 170 150 L170 180 Q100 200 30 180 Z" fill="#D1A7A7"/>
+                            <rect x="30" y="150" width="140" height="10" fill="#F5E1E1"/>
+                            <path d="M35 120 Q100 100 165 120 L165 150 Q100 170 35 150 Z" fill="#A7C7D7"/>
+                            <rect x="35" y="120" width="130" height="10" fill="#E1ECF5"/>
+                        </g>
+                        <g id="cake-slice" transform="translate(20, 0)">
+                            <path d="M30 150 Q100 130 170 150 L170 180 Q100 200 30 180 Z" fill="#D1A7A7"/>
+                            <rect x="30" y="150" width="140" height="10" fill="#F5E1E1"/>
+                            <path d="M35 120 Q100 100 165 120 L165 150 Q100 170 35 150 Z" fill="#A7C7D7"/>
+                            <rect x="35" y="120" width="130" height="10" fill="#E1ECF5"/>
+                        </g>
+                    </g>
+                    <g class="candles">
+                        <rect x="98" y="80" width="4" height="40" fill="#F0F0F0"/>
+                        <polygon class="flame" points="100,60 105,80 95,80" fill="orange"/>
+                        <circle class="smoke" cx="100" cy="60" r="5" fill="rgba(200,200,200,0.5)"/>
+                    </g>
+                </svg>
+            </div>
+        </div>
+        <div class="scroll-down" id="scroll-indicator">
+            <a href="#photo-section"><span></span>Scroll Down</a>
+        </div>
+    </section>
 
-    <!-- Main Content -->
-    <main class="content-container">
-        <h1 id="main-title" class="main-title"></h1>
-        <p class="birthday-message">
-            Wishing you a day filled with love, laughter, and everything you wished for. May your year ahead be as wonderful as you are!
-        </p>
-    </main>
+    <!-- Photo Slider Section -->
+    <section class="photo-section" id="photo-section">
+        <h2 class="photo-section-title">A Few Memories</h2>
+        <div class="slider-container">
+            <div class="slider-track" id="slider-track">
+                <!-- Images will be injected here by JS -->
+            </div>
+        </div>
+    </section>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -253,16 +278,93 @@
             const titleElement = document.getElementById('main-title');
             titleText.split('').forEach((char, index) => {
                 const span = document.createElement('span');
-                // Use non-breaking space for spaces to ensure they are animated
                 span.innerHTML = char === ' ' ? '&nbsp;' : char;
-                span.style.animationDelay = `${0.5 + index * 0.1}s`;
+                span.style.animationDelay = `${index * 0.15}s`;
                 titleElement.appendChild(span);
+            });
+
+            // --- Cake Animation Logic ---
+            const cakeContainer = document.getElementById('cake-container');
+            const cakeSvg = document.getElementById('cake-svg');
+            let cakeStep = 0;
+            cakeContainer.addEventListener('click', () => {
+                if (cakeStep === 0) {
+                    cakeSvg.classList.add('blown-out');
+                    cakeStep = 1;
+                } else if (cakeStep === 1) {
+                    cakeSvg.classList.add('cut');
+                    cakeStep = 2;
+                } else {
+                    cakeSvg.classList.remove('blown-out', 'cut');
+                    cakeStep = 0;
+                }
+            });
+
+            // --- Photo Slider Logic ---
+            const imageUrls = [
+                'https://res.cloudinary.com/dqh7olosv/image/upload/v1754440143/IMG_0958_cuflkw.jpg',
+                'https://res.cloudinary.com/dqh7olosv/image/upload/v1754440147/IMG_0959_eqdrpx.jpg',
+                'https://res.cloudinary.com/dqh7olosv/image/upload/v1754440149/IMG_0984_ec8q7v.jpg',
+                'https://res.cloudinary.com/dqh7olosv/image/upload/v1754440150/IMG_0985_lsmpyk.jpg',
+                'https://res.cloudinary.com/dqh7olosv/image/upload/v1754440152/IMG_0960_uu8qbt.jpg',
+                'https://res.cloudinary.com/dqh7olosv/image/upload/v1754440359/IMG_0022_dtvdoa.jpg',
+                'https://res.cloudinary.com/dqh7olosv/image/upload/v1754440362/IMG_0006_swb9m3.jpg',
+                'https://res.cloudinary.com/dqh7olosv/image/upload/v1754440364/IMG-20221212-WA0013_c7jqxk.jpg',
+                'https://res.cloudinary.com/dqh7olosv/image/upload/v1754440364/IMG_0984_e09iqk.jpg',
+                'https://res.cloudinary.com/dqh7olosv/image/upload/v1754440366/IMG_0955_rgltjb.jpg',
+                'https://res.cloudinary.com/dqh7olosv/image/upload/v1754440369/20240314_140249_1_cglbac.jpg',
+                'https://res.cloudinary.com/dqh7olosv/image/upload/v1754440371/IMG_0959_dkcwip.jpg',
+                'https://res.cloudinary.com/dqh7olosv/image/upload/v1754440372/IMG_0960_gzs60e.jpg'
+            ];
+            const uniqueImageUrls = [...new Set(imageUrls)];
+            const sliderTrack = document.getElementById('slider-track');
+            const allImages = [...uniqueImageUrls, ...uniqueImageUrls];
+
+            allImages.forEach(url => {
+                const slide = document.createElement('div');
+                slide.className = 'slide';
+                const img = document.createElement('img');
+                img.src = url;
+                img.alt = "Birthday Memory";
+                slide.appendChild(img);
+                sliderTrack.appendChild(slide);
+            });
+            
+            function updateSlider() {
+                const sliderRect = sliderTrack.parentElement.getBoundingClientRect();
+                const slides = sliderTrack.querySelectorAll('.slide');
+                const sliderCenter = sliderRect.left + sliderRect.width / 2;
+                
+                slides.forEach(slide => {
+                    const slideRect = slide.getBoundingClientRect();
+                    const slideCenter = slideRect.left + slideRect.width / 2;
+                    const distance = Math.abs(sliderCenter - slideCenter);
+
+                    if (distance < slideRect.width / 2) {
+                        slide.classList.add('active');
+                    } else {
+                        slide.classList.remove('active');
+                    }
+                });
+                requestAnimationFrame(updateSlider);
+            }
+            updateSlider();
+
+            // --- Scroll Indicator Logic ---
+            const scrollIndicator = document.getElementById('scroll-indicator');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    scrollIndicator.classList.add('hidden');
+                } else {
+                    scrollIndicator.classList.remove('hidden');
+                }
             });
 
             // --- Canvas Particle Animation ---
             const canvas = document.getElementById('particle-canvas');
             const ctx = canvas.getContext('2d');
             let particles = [];
+            const particleColors = ['#ffd700', '#ffffff', '#f0e68c'];
 
             function resizeCanvas() {
                 canvas.width = window.innerWidth;
@@ -270,7 +372,6 @@
             }
             resizeCanvas();
 
-            // Particle class
             class Particle {
                 constructor() {
                     this.x = Math.random() * canvas.width;
@@ -278,7 +379,7 @@
                     this.size = Math.random() * 2 + 1;
                     this.speedX = Math.random() * 1 - 0.5;
                     this.speedY = Math.random() * 1 - 0.5;
-                    this.color = `rgba(212, 175, 55, ${Math.random() * 0.5 + 0.3})`; // Gold with opacity
+                    this.color = particleColors[Math.floor(Math.random() * particleColors.length)];
                 }
                 update() {
                     if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
@@ -295,7 +396,7 @@
             }
 
             function initParticles() {
-                const particleCount = Math.floor(canvas.width / 20);
+                const particleCount = Math.floor(window.innerWidth / 25);
                 for (let i = 0; i < particleCount; i++) {
                     particles.push(new Particle());
                 }
@@ -312,9 +413,35 @@
             }
             animateParticles();
 
+            // --- Interactive Confetti on Click ---
+            document.body.addEventListener('click', (e) => {
+                for (let i = 0; i < 30; i++) {
+                    createConfetti(e.clientX, e.clientY);
+                }
+            });
+
+            function createConfetti(x, y) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                const colors = ['#ffd700', '#f0f0f0', '#ff69b4', '#add8e6'];
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.left = x + 'px';
+                confetti.style.top = y + 'px';
+                const angle = Math.random() * Math.PI * 2;
+                const distance = Math.random() * 200 + 150;
+                const transformX = Math.cos(angle) * distance;
+                const transformY = Math.sin(angle) * distance + 200;
+                document.body.appendChild(confetti);
+                requestAnimationFrame(() => {
+                    confetti.style.transform = `translate(${transformX}px, ${transformY}px) rotate(${Math.random() * 720}deg)`;
+                    confetti.style.opacity = 0;
+                });
+                setTimeout(() => { confetti.remove(); }, 1000);
+            }
+
             window.addEventListener('resize', () => {
                 resizeCanvas();
-                particles = []; // Reset particles on resize
+                particles = [];
                 initParticles();
             });
         });
