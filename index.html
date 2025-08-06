@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         :root {
             --primary-font: 'Great Vibes', cursive;
@@ -210,9 +211,43 @@
         #particle-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
         .confetti { position: fixed; width: 10px; height: 10px; background-color: var(--gold-color); opacity: 1; transition: transform 1s ease-out, opacity 1s ease-out; }
 
+        /* --- Music Toggle Button --- */
+        #music-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--text-color);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        #music-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+
     </style>
 </head>
 <body>
+    
+    <audio id="birthday-song" loop>
+        <source src="https://res.cloudinary.com/dqh7olosv/video/upload/v1754441593/happy-birthday-240348_y30oa6.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <button id="music-toggle">
+        <i class="fas fa-play"></i>
+    </button>
 
     <!-- Background elements -->
     <div class="background-container"></div>
@@ -273,6 +308,36 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // --- Music Player Logic ---
+            const song = document.getElementById('birthday-song');
+            const musicToggle = document.getElementById('music-toggle');
+            const icon = musicToggle.querySelector('i');
+
+            // Attempt to play music on first user interaction
+            function playMusic() {
+                song.play().then(() => {
+                    icon.classList.remove('fa-play');
+                    icon.classList.add('fa-pause');
+                }).catch(error => {
+                    console.log("Autoplay was prevented. User needs to click the play button.");
+                });
+                // Remove this listener after the first interaction
+                document.body.removeEventListener('click', playMusic);
+            }
+            document.body.addEventListener('click', playMusic, { once: true });
+
+            musicToggle.addEventListener('click', () => {
+                if (song.paused) {
+                    song.play();
+                    icon.classList.remove('fa-play');
+                    icon.classList.add('fa-pause');
+                } else {
+                    song.pause();
+                    icon.classList.remove('fa-pause');
+                    icon.classList.add('fa-play');
+                }
+            });
+
             // --- Main Title Letter Animation ---
             const titleText = "Happy Birthday Mumu!";
             const titleElement = document.getElementById('main-title');
@@ -415,6 +480,7 @@
 
             // --- Interactive Confetti on Click ---
             document.body.addEventListener('click', (e) => {
+                if (e.target.closest('#music-toggle')) return; // Don't trigger confetti when clicking music button
                 for (let i = 0; i < 30; i++) {
                     createConfetti(e.clientX, e.clientY);
                 }
