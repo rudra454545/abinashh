@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Birthday Mumu!</title>
+    <title>Happy Birthday Mamu!</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
@@ -14,6 +14,8 @@
             --secondary-font: 'Montserrat', sans-serif;
             --text-color: #f0f0f0;
             --gold-color: #ffd700;
+            --pink-color: #ff69b4;
+            --rose-color: #ff1493;
             --bg-color: #1a1a2d; /* Deep Indigo */
         }
 
@@ -27,22 +29,87 @@
             font-family: var(--secondary-font);
             background-color: var(--bg-color);
             color: var(--text-color);
-            overflow-x: hidden; /* Prevent horizontal scroll */
+            overflow-x: hidden;
             text-align: center;
         }
 
         /* --- Background Elements --- */
         .background-container {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
-            background-image: url('https://images.unsplash.com/photo-1559981426-0d75d40b6151?q=80&w=2874&auto=format&fit=crop');
+            background: linear-gradient(rgba(26, 26, 45, 0.9), rgba(26, 26, 45, 0.9)), 
+                       url('https://images.unsplash.com/photo-1559981426-0d75d40b6151?q=80&w=2874&auto=format&fit=crop');
             background-size: cover; background-position: center;
             animation: zoom-in-out 30s ease-in-out infinite;
         }
-        .background-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
-            background: rgba(26, 26, 45, 0.85); backdrop-filter: blur(5px);
-        }
         @keyframes zoom-in-out { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+
+        /* --- Loading Animation --- */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 1s ease-out;
+        }
+        .loader {
+            width: 80px;
+            height: 80px;
+            position: relative;
+            margin-bottom: 20px;
+        }
+        .loader:before {
+            content: '';
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 6px solid rgba(255, 105, 180, 0.2);
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .loader:after {
+            content: '';
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 6px solid transparent;
+            border-top-color: var(--pink-color);
+            position: absolute;
+            top: 0;
+            left: 0;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .loading-text {
+            font-size: 1.5rem;
+            color: var(--text-color);
+            font-family: var(--secondary-font);
+        }
+        .progress-bar {
+            width: 300px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+        .progress {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--pink-color), var(--rose-color));
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
 
         /* --- Section Styling --- */
         .content-section {
@@ -50,21 +117,16 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 4rem 2rem; /* Reduced padding for minimal gaps */
+            min-height: 100vh;
+            padding: 4rem 2rem;
             perspective: 1500px;
             position: relative;
         }
 
-        /* --- 3D Card Effect --- */
-        .card-3d {
-            padding: 2rem 3rem; border-radius: 20px;
-            background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transform-style: preserve-3d;
-            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        /* --- Video Sections --- */
+        .video-section {
+            min-height: 80vh;
         }
-        
-        /* --- Video Card --- */
         .video-card {
             width: 100%;
             max-width: 800px;
@@ -72,6 +134,7 @@
             overflow: hidden;
             transform-style: preserve-3d;
             transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
         }
         .video-card:hover {
             transform: rotateY(-10deg) rotateX(5deg) scale(1.05);
@@ -93,33 +156,56 @@
 
         /* --- Main Title Animation --- */
         .main-title {
-            font-family: var(--primary-font); font-size: clamp(3rem, 12vw, 7rem);
-            color: var(--text-color); font-weight: 400; margin: 0; line-height: 1.2;
+            font-family: var(--primary-font); 
+            font-size: clamp(3rem, 12vw, 7rem);
+            color: var(--text-color); 
+            font-weight: 400; 
+            margin: 0; 
+            line-height: 1.2;
             animation: text-glow 3s ease-in-out infinite alternate;
             transform: translateZ(60px);
         }
         .main-title span {
-            display: inline-block; opacity: 0; transform: translateY(50px) scale(0.8);
+            display: inline-block; 
+            opacity: 0; 
+            transform: translateY(50px) scale(0.8);
             animation: letter-loop 8s cubic-bezier(0.25, 1, 0.5, 1) infinite;
         }
-        @keyframes letter-loop { 0%, 100% { opacity: 0; transform: translateY(50px) scale(0.8); } 20%, 80% { opacity: 1; transform: translateY(0) scale(1); } }
-        @keyframes text-glow { from { text-shadow: 0 0 5px #fff, 0 0 10px var(--gold-color), 0 0 15px var(--gold-color); } to { text-shadow: 0 0 10px #fff, 0 0 20px var(--gold-color), 0 0 30px var(--gold-color); } }
+        @keyframes letter-loop { 
+            0%, 100% { opacity: 0; transform: translateY(50px) scale(0.8); } 
+            20%, 80% { opacity: 1; transform: translateY(0) scale(1); } 
+        }
+        @keyframes text-glow { 
+            from { text-shadow: 0 0 5px #fff, 0 0 10px var(--gold-color), 0 0 15px var(--gold-color); } 
+            to { text-shadow: 0 0 10px #fff, 0 0 20px var(--gold-color), 0 0 30px var(--gold-color); } 
+        }
 
         /* --- Subtitle/Message --- */
         .birthday-message {
-            font-size: clamp(1rem, 3.5vw, 1.3rem); font-weight: 300; margin-top: 1rem;
-            letter-spacing: 1px; opacity: 0;
+            font-size: clamp(1rem, 3.5vw, 1.3rem); 
+            font-weight: 300; 
+            margin-top: 1rem;
+            letter-spacing: 1px; 
+            opacity: 0;
             animation: fade-in-up 1.5s ease-out 2s forwards;
             transform: translateZ(40px);
+            max-width: 800px;
+            line-height: 1.6;
         }
-        @keyframes fade-in-up { from { opacity: 0; transform: translateY(20px) translateZ(40px); } to { opacity: 1; transform: translateY(0) translateZ(40px); } }
+        @keyframes fade-in-up { 
+            from { opacity: 0; transform: translateY(20px) translateZ(40px); } 
+            to { opacity: 1; transform: translateY(0) translateZ(40px); } 
+        }
 
         /* --- Interactive Cake --- */
         #cake-container {
-            margin-top: 1.5rem; cursor: pointer; transform: translateZ(20px);
+            margin-top: 1.5rem; 
+            cursor: pointer; 
+            transform: translateZ(20px);
         }
         #cake-svg {
-            width: 220px; height: auto;
+            width: 220px; 
+            height: auto;
             filter: drop-shadow(0 10px 15px rgba(0,0,0,0.3));
             animation: float-cake 5s ease-in-out infinite;
         }
@@ -168,27 +254,152 @@
             transition: transform 0.5s ease, opacity 0.5s ease;
             transform: scale(0.8);
             opacity: 0.6;
+            border-radius: 15px;
+            overflow: hidden;
+            cursor: pointer;
         }
         .slide img {
-            width: 100%; height: 100%;
+            width: 100%; 
+            height: 100%;
             object-fit: cover;
             border-radius: 15px;
             border: 2px solid rgba(255,255,255,0.2);
+            transition: transform 0.5s ease;
+        }
+        .slide:hover img {
+            transform: scale(1.1);
         }
         .slide.active {
             transform: scale(1.1);
             opacity: 1;
             z-index: 10;
         }
+        .slide-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            padding: 1rem;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+        .slide:hover .slide-caption {
+            transform: translateY(0);
+        }
+
+        /* --- Video Hover Cards --- */
+        .video-hover-cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        .video-card-item {
+            width: 300px;
+            height: 200px;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            transform-style: preserve-3d;
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+        .video-card-item:hover {
+            transform: translateY(-10px) rotate(3deg);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+        }
+        .video-card-item iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .video-card-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .video-card-item:hover .video-card-overlay {
+            opacity: 1;
+        }
+        .play-icon {
+            font-size: 3rem;
+            color: white;
+        }
+
+        /* --- Realistic Flower Petals --- */
+        .petals-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+        .petal {
+            position: absolute;
+            background-size: cover;
+            opacity: 0.8;
+            animation: fall linear forwards;
+        }
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
 
         /* --- Shooting Stars & Particles --- */
-        .stars-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
-        .star { position: absolute; background: linear-gradient(-45deg, var(--gold-color), rgba(255, 215, 0, 0)); width: 2px; height: 80px; border-radius: 50%; filter: drop-shadow(0 0 6px var(--gold-color)); animation: shooting-star 10s linear infinite; }
+        .stars-container { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            z-index: 0; 
+            pointer-events: none; 
+        }
+        .star { 
+            position: absolute; 
+            background: linear-gradient(-45deg, var(--gold-color), rgba(255, 215, 0, 0)); 
+            width: 2px; 
+            height: 80px; 
+            border-radius: 50%; 
+            filter: drop-shadow(0 0 6px var(--gold-color)); 
+            animation: shooting-star 10s linear infinite; 
+        }
         .star:nth-child(2) { top: 20%; left: 20%; animation-delay: 3s; animation-duration: 8s; }
         .star:nth-child(3) { top: 50%; left: 40%; animation-delay: 5s; animation-duration: 12s; }
         @keyframes shooting-star { 0% { transform: rotate(315deg) translateX(0); opacity: 1; } 70% { opacity: 1; } 100% { transform: rotate(315deg) translateX(-1000px); opacity: 0; } }
-        #particle-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
-        .confetti { position: fixed; width: 10px; height: 10px; background-color: var(--gold-color); opacity: 1; transition: transform 1s ease-out, opacity 1s ease-out; }
+        
+        #particle-canvas { 
+            position: fixed; 
+            top: 0; 
+            left: 0;
+            width: 100%; 
+            height: 100%; 
+            z-index: 0; 
+            pointer-events: none; 
+        }
+        .confetti { 
+            position: fixed; 
+            width: 10px; 
+            height: 10px; 
+            background-color: var(--gold-color); 
+            opacity: 1; 
+            transition: transform 1s ease-out, opacity 1s ease-out; 
+        }
 
         /* --- Music Toggle Button --- */
         #music-toggle {
@@ -208,13 +419,53 @@
             justify-content: center;
             align-items: center;
             backdrop-filter: blur(5px);
-            transition: background-color 0.3s, transform 0.3s;
-        }
-        #music-toggle:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: scale(1.1);
+            transition: background-color 0.3s;
         }
 
+        /* --- Navigation Dots --- */
+        .nav-dots {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .dot.active {
+            background: var(--pink-color);
+            transform: scale(1.3);
+        }
+        .dot:hover {
+            background: var(--gold-color);
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            .content-section {
+                padding: 2rem 1rem;
+            }
+            .slider-container {
+                height: 300px;
+            }
+            .slide {
+                height: 250px;
+                width: 180px;
+            }
+            .video-card-item {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -228,22 +479,40 @@
         <i class="fas fa-play"></i>
     </button>
 
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loader"></div>
+        <div class="loading-text">Loading Beautiful Memories...</div>
+        <div class="progress-bar">
+            <div class="progress" id="progress"></div>
+        </div>
+    </div>
+
+    <!-- Navigation Dots -->
+    <div class="nav-dots">
+        <div class="dot active" data-section="0"></div>
+        <div class="dot" data-section="1"></div>
+        <div class="dot" data-section="2"></div>
+        <div class="dot" data-section="3"></div>
+        <div class="dot" data-section="4"></div>
+    </div>
+
     <!-- Background elements -->
     <div class="background-container"></div>
-    <div class="background-overlay"></div>
     <div class="stars-container">
         <div class="star" style="top: 0; left: 50%;"></div>
-        <div class="star"></div>
-        <div class="star"></div>
+        <div class="star" style="top: 20%; left: 20%;"></div>
+        <div class="star" style="top: 50%; left: 40%;"></div>
     </div>
     <canvas id="particle-canvas"></canvas>
+    <div class="petals-container" id="petals-container"></div>
 
-    <!-- Section 1: Video -->
-    <section class="content-section video-section">
+    <!-- Section 1: First Video -->
+    <section class="content-section video-section" id="section-0">
         <h2 class="section-title">A Special Message</h2>
         <div class="video-card">
             <iframe
-              src="https://player.cloudinary.com/embed/?cloud_name=dqh7olosv&public_id=1754441825450_ikwdfu&profile=cld-default&autoplay=1&loop=1&muted=1&controls=0"
+              src="https://video-link-generator.replit.app/v/h88w7l3rovukd3tlaqcfqm"
               allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
               allowfullscreen
               frameborder="0"
@@ -252,7 +521,7 @@
     </section>
 
     <!-- Section 2: Birthday Card -->
-    <section id="birthday-section" class="content-section">
+    <section class="content-section" id="section-1">
         <div class="card-3d">
             <h1 id="main-title" class="main-title"></h1>
             <p class="birthday-message">
@@ -263,22 +532,47 @@
                 <svg id="cake-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
                     <g id="whole-cake">
                         <g id="main-cake">
-                            <path d="M30 150 Q100 130 170 150 L170 180 Q100 200 30 180 Z" fill="#D1A7A7"/>
-                            <rect x="30" y="150" width="140" height="10" fill="#F5E1E1"/>
-                            <path d="M35 120 Q100 100 165 120 L165 150 Q100 170 35 150 Z" fill="#A7C7D7"/>
-                            <rect x="35" y="120" width="130" height="10" fill="#E1ECF5"/>
+                            <!-- Bottom Layer -->
+                            <ellipse cx="100" cy="180" rx="70" ry="20" fill="#8B4513"/>
+                            <rect x="30" y="160" width="140" height="20" fill="#D2B48C"/>
+                            <ellipse cx="100" cy="160" rx="70" ry="20" fill="#F5DEB3"/>
+                            
+                            <!-- Middle Layer -->
+                            <ellipse cx="100" cy="140" rx="60" ry="18" fill="#8B4513"/>
+                            <rect x="40" y="122" width="120" height="18" fill="#DDA0DD"/>
+                            <ellipse cx="100" cy="122" rx="60" ry="18" fill="#E6E6FA"/>
+                            
+                            <!-- Top Layer -->
+                            <ellipse cx="100" cy="104" rx="50" ry="16" fill="#8B4513"/>
+                            <rect x="50" y="88" width="100" height="16" fill="#FFB6C1"/>
+                            <ellipse cx="100" cy="88" rx="50" ry="16" fill="#FFC0CB"/>
+                            
+                            <!-- Decorations -->
+                            <circle cx="75" cy="95" r="3" fill="#FF1493"/>
+                            <circle cx="125" cy="95" r="3" fill="#FF1493"/>
+                            <circle cx="100" cy="130" r="4" fill="#FF69B4"/>
+                            <circle cx="60" cy="170" r="3" fill="#FF1493"/>
+                            <circle cx="140" cy="170" r="3" fill="#FF1493"/>
                         </g>
-                        <g id="cake-slice" transform="translate(20, 0)">
-                            <path d="M30 150 Q100 130 170 150 L170 180 Q100 200 30 180 Z" fill="#D1A7A7"/>
-                            <rect x="30" y="150" width="140" height="10" fill="#F5E1E1"/>
-                            <path d="M35 120 Q100 100 165 120 L165 150 Q100 170 35 150 Z" fill="#A7C7D7"/>
-                            <rect x="35" y="120" width="130" height="10" fill="#E1ECF5"/>
+                        
+                        <!-- Candle -->
+                        <rect x="98" y="70" width="4" height="20" fill="#FFFF99" stroke="#FFD700" stroke-width="0.5"/>
+                        
+                        <!-- Flame -->
+                        <ellipse class="flame" cx="100" cy="68" rx="3" ry="6" fill="orange" opacity="0.9"/>
+                        <ellipse class="flame" cx="100" cy="66" rx="2" ry="4" fill="red" opacity="0.7"/>
+                        
+                        <!-- Smoke -->
+                        <circle class="smoke" cx="100" cy="60" r="2" fill="rgba(200,200,200,0.6)"/>
+                        <circle class="smoke" cx="102" cy="55" r="1.5" fill="rgba(200,200,200,0.4)"/>
+                        <circle class="smoke" cx="98" cy="52" r="1" fill="rgba(200,200,200,0.3)"/>
+                        
+                        <!-- Cake Slice (hidden initially) -->
+                        <g id="cake-slice">
+                            <path d="M100 88 L120 95 L120 180 L100 175 Z" fill="#FFC0CB"/>
+                            <path d="M100 122 L120 127 L120 140 L100 138 Z" fill="#E6E6FA"/>
+                            <path d="M100 160 L120 163 L120 180 L100 175 Z" fill="#F5DEB3"/>
                         </g>
-                    </g>
-                    <g class="candles">
-                        <rect x="98" y="80" width="4" height="40" fill="#F0F0F0"/>
-                        <polygon class="flame" points="100,60 105,80 95,80" fill="orange"/>
-                        <circle class="smoke" cx="100" cy="60" r="5" fill="rgba(200,200,200,0.5)"/>
                     </g>
                 </svg>
             </div>
@@ -286,8 +580,8 @@
     </section>
 
     <!-- Section 3: Photo Slider -->
-    <section class="content-section photo-section" id="photo-section">
-        <h2 class="section-title">A Few Memories</h2>
+    <section class="content-section" id="section-2">
+        <h2 class="section-title">Beautiful Memories</h2>
         <div class="slider-container">
             <div class="slider-track" id="slider-track">
                 <!-- Images will be injected here by JS -->
@@ -295,8 +589,56 @@
         </div>
     </section>
 
+    <!-- Section 4: Video Hover Cards -->
+    <section class="content-section" id="section-3">
+        <h2 class="section-title">Special Moments</h2>
+        <div class="video-hover-cards">
+            <div class="video-card-item">
+                <iframe src="https://video-link-generator.replit.app/v/h88w7l3rovukd3tlaqcfqm" frameborder="0" allowfullscreen></iframe>
+                <div class="video-card-overlay">
+                    <i class="fas fa-play play-icon"></i>
+                </div>
+            </div>
+            <div class="video-card-item">
+                <iframe src="https://video-link-generator.replit.app/v/f2hnb78024otyhuvsq8x3" frameborder="0" allowfullscreen></iframe>
+                <div class="video-card-overlay">
+                    <i class="fas fa-play play-icon"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5: Final Message -->
+    <section class="content-section" id="section-4">
+        <h2 class="section-title">With All Our Love</h2>
+        <p class="birthday-message">
+            May your special day be as incredible as you are. Thank you for being such an amazing person in our lives. 
+            We cherish every moment spent with you and look forward to creating many more beautiful memories together.
+        </p>
+    </section>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // --- Loading Animation ---
+            const loadingScreen = document.getElementById('loading-screen');
+            const progressBar = document.getElementById('progress');
+            let progress = 0;
+            
+            const loadingInterval = setInterval(() => {
+                progress += Math.random() * 10;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(loadingInterval);
+                    setTimeout(() => {
+                        loadingScreen.style.opacity = '0';
+                        setTimeout(() => {
+                            loadingScreen.style.display = 'none';
+                        }, 1000);
+                    }, 500);
+                }
+                progressBar.style.width = `${progress}%`;
+            }, 200);
+
             // --- Music Player Logic ---
             const song = document.getElementById('birthday-song');
             const musicToggle = document.getElementById('music-toggle');
@@ -314,16 +656,19 @@
                     console.log("Autoplay was prevented. User needs to click the play button.");
                 });
             }
+
             document.body.addEventListener('click', playMusic, { once: true });
             document.body.addEventListener('scroll', playMusic, { once: true });
-
 
             musicToggle.addEventListener('click', () => {
                 hasInteracted = true;
                 if (song.paused) {
-                    song.play();
-                    icon.classList.remove('fa-play');
-                    icon.classList.add('fa-pause');
+                    song.play().then(() => {
+                        icon.classList.remove('fa-play');
+                        icon.classList.add('fa-pause');
+                    }).catch(error => {
+                        console.log("Audio playback failed:", error);
+                    });
                 } else {
                     song.pause();
                     icon.classList.remove('fa-pause');
@@ -332,8 +677,10 @@
             });
 
             // --- Main Title Letter Animation ---
-            const titleText = "Happy Birthday Mumu!";
+            const titleText = "Happy Birthday Mamu!";
             const titleElement = document.getElementById('main-title');
+            titleElement.innerHTML = ''; // Clear any existing content
+            
             titleText.split('').forEach((char, index) => {
                 const span = document.createElement('span');
                 span.innerHTML = char === ' ' ? '&nbsp;' : char;
@@ -345,14 +692,18 @@
             const cakeContainer = document.getElementById('cake-container');
             const cakeSvg = document.getElementById('cake-svg');
             let cakeStep = 0;
+            
             cakeContainer.addEventListener('click', () => {
                 if (cakeStep === 0) {
+                    // Blow out candles
                     cakeSvg.classList.add('blown-out');
                     cakeStep = 1;
                 } else if (cakeStep === 1) {
+                    // Cut cake
                     cakeSvg.classList.add('cut');
                     cakeStep = 2;
                 } else {
+                    // Reset
                     cakeSvg.classList.remove('blown-out', 'cut');
                     cakeStep = 0;
                 }
@@ -360,34 +711,35 @@
 
             // --- Photo Slider Logic ---
             const imageUrls = [
-                'https://res.cloudinary.com/dqh7olosv/image/upload/v1754440143/IMG_0958_cuflkw.jpg',
-                'https://res.cloudinary.com/dqh7olosv/image/upload/v1754440147/IMG_0959_eqdrpx.jpg',
-                'https://res.cloudinary.com/dqh7olosv/image/upload/v1754440149/IMG_0984_ec8q7v.jpg',
-                'https://res.cloudinary.com/dqh7olosv/image/upload/v1754440150/IMG_0985_lsmpyk.jpg',
-                'https://res.cloudinary.com/dqh7olosv/image/upload/v1754440152/IMG_0960_uu8qbt.jpg',
-                'https://res.cloudinary.com/dqh7olosv/image/upload/v1754440359/IMG_0022_dtvdoa.jpg',
-                'https://res.cloudinary.com/dqh7olosv/image/upload/v1754440362/IMG_0006_swb9m3.jpg',
-                'https://res.cloudinary.com/dqh7olosv/image/upload/v1754440364/IMG-20221212-WA0013_c7jqxk.jpg',
-                'https://res.cloudinary.com/dqh7olosv/image/upload/v1754440364/IMG_0984_e09iqk.jpg',
-                'https://res.cloudinary.com/dqh7olosv/image/upload/v1754440366/IMG_0955_rgltjb.jpg',
-                'https://res.cloudinary.com/dqh7olosv/image/upload/v1754440369/20240314_140249_1_cglbac.jpg',
-                'https://res.cloudinary.com/dqh7olosv/image/upload/v1754440371/IMG_0959_dkcwip.jpg',
-                'https://res.cloudinary.com/dqh7olosv/image/upload/v1754440372/IMG_0960_gzs60e.jpg'
+                'https://image2url.com/images/1756340101783-f4d38601-6ef7-49cb-b3b0-f43eaeab7b34.jpg',
+                'https://image2url.com/images/1756340162739-9f838a35-10f5-44ed-b645-a2b6c2787982.jpg',
+                'https://image2url.com/images/1756340202148-7888ea29-d59d-4bd1-bfe2-df38f0ffad73.jpg',
+                'https://image2url.com/images/1756340220398-68ca5dc3-433d-49ee-9f6c-bce04f858c47.jpg',
+                'https://image2url.com/images/1756340235503-587e5212-3856-401d-b486-023ef5168389.jpg',
+                'https://image2url.com/images/1756340246825-b1f889f1-ba6d-44c2-a35f-4e8a14da48d1.jpg'
             ];
-            const uniqueImageUrls = [...new Set(imageUrls)];
+            
             const sliderTrack = document.getElementById('slider-track');
-            const allImages = [...uniqueImageUrls, ...uniqueImageUrls];
+            const allImages = [...imageUrls, ...imageUrls]; // Duplicate for seamless loop
 
-            allImages.forEach(url => {
+            allImages.forEach((url, index) => {
                 const slide = document.createElement('div');
                 slide.className = 'slide';
                 const img = document.createElement('img');
                 img.src = url;
                 img.alt = "Birthday Memory";
+                img.loading = 'lazy';
                 slide.appendChild(img);
+                
+                const caption = document.createElement('div');
+                caption.className = 'slide-caption';
+                caption.textContent = `Beautiful Memory ${(index % imageUrls.length) + 1}`;
+                slide.appendChild(caption);
+                
                 sliderTrack.appendChild(slide);
             });
             
+            // Update slider active states
             function updateSlider() {
                 const sliderRect = sliderTrack.parentElement.getBoundingClientRect();
                 const slides = sliderTrack.querySelectorAll('.slide');
@@ -408,47 +760,113 @@
             }
             updateSlider();
 
+            // --- Realistic Flower Petals ---
+            const petalsContainer = document.getElementById('petals-container');
+            const petalColors = ['#ffb6c1', '#ffc0cb', '#ff69b4', '#ff1493', '#db7093'];
+            
+            function createPetal() {
+                const petal = document.createElement('div');
+                petal.className = 'petal';
+                
+                // Random position
+                petal.style.left = Math.random() * 100 + 'vw';
+                petal.style.top = '-20px';
+                
+                // Random size
+                const size = Math.random() * 15 + 8;
+                petal.style.width = `${size}px`;
+                petal.style.height = `${size * 1.5}px`;
+                
+                // Random color
+                const color = petalColors[Math.floor(Math.random() * petalColors.length)];
+                petal.style.backgroundColor = color;
+                
+                // Random shape (petal-like)
+                petal.style.borderRadius = `${Math.random() * 50 + 30}% ${Math.random() * 30 + 10}% ${Math.random() * 50 + 30}% ${Math.random() * 30 + 10}%`;
+                
+                // Random animation duration
+                const duration = Math.random() * 8 + 6; // 6-14 seconds
+                const delay = Math.random() * 2;
+                petal.style.animationDuration = `${duration}s`;
+                petal.style.animationDelay = `${delay}s`;
+                
+                // Random horizontal drift
+                const drift = Math.random() * 200 - 100; // -100 to 100px
+                petal.style.setProperty('--drift', drift + 'px');
+                
+                petalsContainer.appendChild(petal);
+                
+                // Remove petal after animation
+                setTimeout(() => {
+                    if (petal.parentNode) {
+                        petal.remove();
+                    }
+                }, (duration + delay) * 1000);
+            }
+            
+            // Create initial petals
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => createPetal(), i * 200);
+            }
+            
+            // Continue creating petals
+            setInterval(createPetal, 400);
+
             // --- Canvas Particle Animation ---
             const canvas = document.getElementById('particle-canvas');
             const ctx = canvas.getContext('2d');
             let particles = [];
-            const particleColors = ['#ffd700', '#ffffff', '#f0e68c'];
+            const particleColors = ['#ffd700', '#ffffff', '#f0e68c', '#ff69b4'];
 
             function resizeCanvas() {
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
             }
+            
             resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
 
             class Particle {
                 constructor() {
                     this.x = Math.random() * canvas.width;
                     this.y = Math.random() * canvas.height;
-                    this.size = Math.random() * 2 + 1;
-                    this.speedX = Math.random() * 1 - 0.5;
-                    this.speedY = Math.random() * 1 - 0.5;
+                    this.size = Math.random() * 3 + 1;
+                    this.speedX = (Math.random() - 0.5) * 2;
+                    this.speedY = (Math.random() - 0.5) * 2;
                     this.color = particleColors[Math.floor(Math.random() * particleColors.length)];
+                    this.opacity = Math.random() * 0.8 + 0.2;
                 }
+                
                 update() {
-                    if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
-                    if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
                     this.x += this.speedX;
                     this.y += this.speedY;
+                    
+                    // Bounce off edges
+                    if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
+                    if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
+                    
+                    // Keep within bounds
+                    this.x = Math.max(0, Math.min(canvas.width, this.x));
+                    this.y = Math.max(0, Math.min(canvas.height, this.y));
                 }
+                
                 draw() {
-                    ctx.fillStyle = this.color;
                     ctx.beginPath();
                     ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fillStyle = this.color;
+                    ctx.globalAlpha = this.opacity;
                     ctx.fill();
+                    ctx.globalAlpha = 1;
                 }
             }
-
+            
             function initParticles() {
-                const particleCount = Math.floor(window.innerWidth / 25);
-                for (let i = 0; i < particleCount; i++) {
+                particles = [];
+                for (let i = 0; i < 80; i++) {
                     particles.push(new Particle());
                 }
             }
+            
             initParticles();
 
             function animateParticles() {
@@ -459,43 +877,123 @@
                 }
                 requestAnimationFrame(animateParticles);
             }
+            
             animateParticles();
 
-            // --- Interactive Confetti on Click ---
-            document.body.addEventListener('click', (e) => {
-                if (e.target.closest('#music-toggle')) return; // Don't trigger confetti when clicking music button
-                for (let i = 0; i < 30; i++) {
-                    createConfetti(e.clientX, e.clientY);
+            // --- Confetti Effect ---
+            function createConfetti(x, y) {
+                const colors = ['#ffd700', '#f0f0f0', '#ff69b4', '#add8e6', '#ff1493'];
+                
+                for (let i = 0; i < 15; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.left = x + 'px';
+                    confetti.style.top = y + 'px';
+                    
+                    const angle = (Math.PI * 2 * i) / 15;
+                    const distance = Math.random() * 200 + 100;
+                    const transformX = Math.cos(angle) * distance;
+                    const transformY = Math.sin(angle) * distance + 150;
+                    
+                    document.body.appendChild(confetti);
+                    
+                    requestAnimationFrame(() => {
+                        confetti.style.transform = `translate(${transformX}px, ${transformY}px) rotate(${Math.random() * 720}deg)`;
+                        confetti.style.opacity = 0;
+                    });
+                    
+                    setTimeout(() => {
+                        if (confetti.parentNode) {
+                            confetti.remove();
+                        }
+                    }, 1000);
+                }
+            }
+
+            // Add confetti effect to cake click
+            cakeContainer.addEventListener('click', (e) => {
+                const rect = cakeContainer.getBoundingClientRect();
+                const x = rect.left + rect.width / 2;
+                const y = rect.top + rect.height / 2;
+                createConfetti(x, y);
+            });
+
+            // --- Navigation Dots ---
+            const dots = document.querySelectorAll('.dot');
+            const sections = document.querySelectorAll('.content-section');
+            
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    // Update active dot
+                    dots.forEach(d => d.classList.remove('active'));
+                    dot.classList.add('active');
+                    
+                    // Scroll to section
+                    sections[index].scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+            
+            // Update active dot on scroll
+            let ticking = false;
+            
+            function updateNavDots() {
+                const scrollPosition = window.scrollY + window.innerHeight / 2;
+                
+                sections.forEach((section, index) => {
+                    const sectionTop = section.offsetTop;
+                    const sectionBottom = sectionTop + section.offsetHeight;
+                    
+                    if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+                        dots.forEach(d => d.classList.remove('active'));
+                        if (dots[index]) {
+                            dots[index].classList.add('active');
+                        }
+                    }
+                });
+                
+                ticking = false;
+            }
+            
+            window.addEventListener('scroll', () => {
+                if (!ticking) {
+                    requestAnimationFrame(updateNavDots);
+                    ticking = true;
                 }
             });
 
-            function createConfetti(x, y) {
-                const confetti = document.createElement('div');
-                confetti.className = 'confetti';
-                const colors = ['#ffd700', '#f0f0f0', '#ff69b4', '#add8e6'];
-                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                confetti.style.left = x + 'px';
-                confetti.style.top = y + 'px';
-                const angle = Math.random() * Math.PI * 2;
-                const distance = Math.random() * 200 + 150;
-                const transformX = Math.cos(angle) * distance;
-                const transformY = Math.sin(angle) * distance + 200;
-                document.body.appendChild(confetti);
-                requestAnimationFrame(() => {
-                    confetti.style.transform = `translate(${transformX}px, ${transformY}px) rotate(${Math.random() * 720}deg)`;
-                    confetti.style.opacity = 0;
-                });
-                setTimeout(() => { confetti.remove(); }, 1000);
+            // --- Enhanced Petal Animation ---
+            const originalFallKeyframes = `
+                @keyframes fall {
+                    to {
+                        transform: translateY(calc(100vh + 50px)) translateX(var(--drift, 0px)) rotate(360deg);
+                    }
+                }
+            `;
+            
+            const style = document.createElement('style');
+            style.textContent = originalFallKeyframes;
+            document.head.appendChild(style);
+
+            // --- Error Handling for Images ---
+            document.addEventListener('error', (e) => {
+                if (e.target.tagName === 'IMG') {
+                    e.target.src = 'https://via.placeholder.com/250x350/ff69b4/ffffff?text=Memory';
+                }
+            }, true);
+
+            // --- Performance Optimization ---
+            const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+            
+            if (reducedMotion.matches) {
+                // Disable heavy animations for users who prefer reduced motion
+                document.body.style.setProperty('--animation-duration', '0s');
+                clearInterval(loadingInterval);
+                loadingScreen.style.display = 'none';
             }
 
-            window.addEventListener('resize', () => {
-                resizeCanvas();
-                particles = [];
-                initParticles();
-            });
+            console.log('🎂 Birthday page loaded successfully! 🎉');
         });
     </script>
-
 </body>
 </html>
-
