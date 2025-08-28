@@ -37,7 +37,7 @@
         .background-container {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
             background: linear-gradient(rgba(26, 26, 45, 0.9), rgba(26, 26, 45, 0.9)), 
-                       url('https://images.unsplash.com/photo-1559981426-0d75d40b6151?q=80&w=2874&auto=format&fit=crop');
+                        url('https://images.unsplash.com/photo-1559981426-0d75d40b6151?q=80&w=2874&auto=format&fit=crop');
             background-size: cover; background-position: center;
             animation: zoom-in-out 30s ease-in-out infinite;
         }
@@ -117,8 +117,8 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            padding: 4rem 2rem;
+            min-height: 90vh; /* Reduced gap */
+            padding: 3rem 2rem; /* Reduced padding */
             perspective: 1500px;
             position: relative;
         }
@@ -288,55 +288,6 @@
             transform: translateY(0);
         }
 
-        /* --- Video Hover Cards --- */
-        .video-hover-cards {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-        .video-card-item {
-            width: 300px;
-            height: 200px;
-            border-radius: 15px;
-            overflow: hidden;
-            position: relative;
-            cursor: pointer;
-            transform-style: preserve-3d;
-            transition: transform 0.5s ease, box-shadow 0.5s ease;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-        }
-        .video-card-item:hover {
-            transform: translateY(-10px) rotate(3deg);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
-        }
-        .video-card-item iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-        .video-card-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.7);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        .video-card-item:hover .video-card-overlay {
-            opacity: 1;
-        }
-        .play-icon {
-            font-size: 3rem;
-            color: white;
-        }
-
         /* --- Realistic Flower Petals --- */
         .petals-container {
             position: fixed;
@@ -461,10 +412,6 @@
                 height: 250px;
                 width: 180px;
             }
-            .video-card-item {
-                width: 100%;
-                max-width: 300px;
-            }
         }
     </style>
 </head>
@@ -479,7 +426,6 @@
         <i class="fas fa-play"></i>
     </button>
 
-    <!-- Loading Screen -->
     <div id="loading-screen">
         <div class="loader"></div>
         <div class="loading-text">Loading Beautiful Memories...</div>
@@ -488,16 +434,13 @@
         </div>
     </div>
 
-    <!-- Navigation Dots -->
     <div class="nav-dots">
         <div class="dot active" data-section="0"></div>
         <div class="dot" data-section="1"></div>
         <div class="dot" data-section="2"></div>
         <div class="dot" data-section="3"></div>
-        <div class="dot" data-section="4"></div>
     </div>
 
-    <!-- Background elements -->
     <div class="background-container"></div>
     <div class="stars-container">
         <div class="star" style="top: 0; left: 50%;"></div>
@@ -507,7 +450,6 @@
     <canvas id="particle-canvas"></canvas>
     <div class="petals-container" id="petals-container"></div>
 
-    <!-- Section 1: First Video -->
     <section class="content-section video-section" id="section-0">
         <h2 class="section-title">A Special Message</h2>
         <div class="video-card">
@@ -520,7 +462,6 @@
         </div>
     </section>
 
-    <!-- Section 2: Birthday Card -->
     <section class="content-section" id="section-1">
         <div class="card-3d">
             <h1 id="main-title" class="main-title"></h1>
@@ -528,26 +469,21 @@
                 Wishing you a day filled with love, laughter, and everything you wished for. May your year ahead be as wonderful as you are!
             </p>
             <div id="cake-container" title="Click me!">
-                <!-- SVG Cake -->
                 <svg id="cake-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
                     <g id="whole-cake">
                         <g id="main-cake">
-                            <!-- Bottom Layer -->
                             <ellipse cx="100" cy="180" rx="70" ry="20" fill="#8B4513"/>
                             <rect x="30" y="160" width="140" height="20" fill="#D2B48C"/>
                             <ellipse cx="100" cy="160" rx="70" ry="20" fill="#F5DEB3"/>
                             
-                            <!-- Middle Layer -->
                             <ellipse cx="100" cy="140" rx="60" ry="18" fill="#8B4513"/>
                             <rect x="40" y="122" width="120" height="18" fill="#DDA0DD"/>
                             <ellipse cx="100" cy="122" rx="60" ry="18" fill="#E6E6FA"/>
                             
-                            <!-- Top Layer -->
                             <ellipse cx="100" cy="104" rx="50" ry="16" fill="#8B4513"/>
                             <rect x="50" y="88" width="100" height="16" fill="#FFB6C1"/>
                             <ellipse cx="100" cy="88" rx="50" ry="16" fill="#FFC0CB"/>
                             
-                            <!-- Decorations -->
                             <circle cx="75" cy="95" r="3" fill="#FF1493"/>
                             <circle cx="125" cy="95" r="3" fill="#FF1493"/>
                             <circle cx="100" cy="130" r="4" fill="#FF69B4"/>
@@ -555,19 +491,15 @@
                             <circle cx="140" cy="170" r="3" fill="#FF1493"/>
                         </g>
                         
-                        <!-- Candle -->
                         <rect x="98" y="70" width="4" height="20" fill="#FFFF99" stroke="#FFD700" stroke-width="0.5"/>
                         
-                        <!-- Flame -->
                         <ellipse class="flame" cx="100" cy="68" rx="3" ry="6" fill="orange" opacity="0.9"/>
                         <ellipse class="flame" cx="100" cy="66" rx="2" ry="4" fill="red" opacity="0.7"/>
                         
-                        <!-- Smoke -->
                         <circle class="smoke" cx="100" cy="60" r="2" fill="rgba(200,200,200,0.6)"/>
                         <circle class="smoke" cx="102" cy="55" r="1.5" fill="rgba(200,200,200,0.4)"/>
                         <circle class="smoke" cx="98" cy="52" r="1" fill="rgba(200,200,200,0.3)"/>
                         
-                        <!-- Cake Slice (hidden initially) -->
                         <g id="cake-slice">
                             <path d="M100 88 L120 95 L120 180 L100 175 Z" fill="#FFC0CB"/>
                             <path d="M100 122 L120 127 L120 140 L100 138 Z" fill="#E6E6FA"/>
@@ -579,36 +511,14 @@
         </div>
     </section>
 
-    <!-- Section 3: Photo Slider -->
     <section class="content-section" id="section-2">
         <h2 class="section-title">Beautiful Memories</h2>
         <div class="slider-container">
             <div class="slider-track" id="slider-track">
-                <!-- Images will be injected here by JS -->
-            </div>
+                </div>
         </div>
     </section>
 
-    <!-- Section 4: Video Hover Cards -->
-    <section class="content-section" id="section-3">
-        <h2 class="section-title">Special Moments</h2>
-        <div class="video-hover-cards">
-            <div class="video-card-item">
-                <iframe src="https://video-link-generator.replit.app/v/h88w7l3rovukd3tlaqcfqm" frameborder="0" allowfullscreen></iframe>
-                <div class="video-card-overlay">
-                    <i class="fas fa-play play-icon"></i>
-                </div>
-            </div>
-            <div class="video-card-item">
-                <iframe src="https://video-link-generator.replit.app/v/f2hnb78024otyhuvsq8x3" frameborder="0" allowfullscreen></iframe>
-                <div class="video-card-overlay">
-                    <i class="fas fa-play play-icon"></i>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Section 5: Final Message -->
     <section class="content-section" id="section-4">
         <h2 class="section-title">With All Our Love</h2>
         <p class="birthday-message">
